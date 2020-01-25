@@ -1,0 +1,136 @@
+  console.log('get user data');
+  // AsyncStorage.getItem(STORED_USER_DATA).then((data) => {
+  // let parsedData = data !== null
+  //     ? JSON.parse(data)
+  //     : null;
+  // if(parsedData !== null && navPath !== '') {
+  //   setAxiosDefaults(parsedData.token);
+  //   navigate('Home');
+  //   getNotificationsCount();
+  //   getInternalNotification(getNotificationsCount);
+  //   fillUserData({
+  //       token: parsedData.token,
+  //       gender: parsedData.gender
+  //   })
+  // } else if (parsedData !== null && navPath === ''){
+  //   setAxiosDefaults(parsedData.token);
+  //   getNotificationsCount();
+  //   getInternalNotification(getNotificationsCount);
+  //   fillUserData({
+  //     token: parsedData.token,
+  //     gender: parsedData.gender
+  //   })
+  // } else {
+  //   setAxiosDefaults();
+  //   fillUserData({token: undefined});
+  // }
+  // }).catch(error => {
+  //   setAxiosDefaults()
+  //   fillUserData({token: undefined})
+  // });
+  AsyncStorage.getItem(TOUCH_ID_PERMISSION).then((value) => {
+    if (value === 'yes') {
+        TouchID.authenticate('To Log in to Stokist with Touch ID')
+            .then(success => {
+                AsyncStorage.getItem(STORED_USER_DATA).then((data) => {
+                    let parsedData = data !== null
+                        ? JSON.parse(data)
+                        : null;
+                    parsedData !== null
+                        ? (setAxiosDefaults(parsedData.token),
+                            navigate('Home'),
+                            getNotificationsCount(),
+                            getInternalNotification(getNotificationsCount),
+                            fillUserData({
+                                token: parsedData.token,
+                                gender: parsedData.gender
+                            }))
+                        : (setAxiosDefaults(),
+                            fillUserData({token: undefined}))
+                })
+            })
+            .catch(error => {
+                setAxiosDefaults()
+                fillUserData({token: undefined})
+            });
+    } else {
+       AsyncStorage.getItem(STORED_USER_DATA).then((data) => {
+  let parsedData = data !== null
+      ? JSON.parse(data)
+      : null;
+  if(parsedData !== null && navPath !== '') {
+    setAxiosDefaults(parsedData.token);
+    navigate('Home');
+    getNotificationsCount();
+    getInternalNotification(getNotificationsCount);
+    fillUserData({
+        token: parsedData.token,
+        gender: parsedData.gender
+    })
+  } else if (parsedData !== null && navPath === ''){
+    setAxiosDefaults(parsedData.token);
+    getNotificationsCount();
+    getInternalNotification(getNotificationsCount);
+    fillUserData({
+      token: parsedData.token,
+      gender: parsedData.gender
+    })
+  } else {
+    setAxiosDefaults();
+    fillUserData({token: undefined});
+  }
+  }).catch(error => {
+    setAxiosDefaults()
+    fillUserData({token: undefined})
+  });
+    // if (DEBUGGER_MODE) {
+    //     AsyncStorage.getItem(STORED_USER_DATA).then((data) => {
+    //         let parsedData = data !== null
+    //             ? JSON.parse(data)
+    //             : null;
+    //         parsedData !== null
+    //             ? (setAxiosDefaults(parsedData.token),
+    //                 navigate('Home'),
+    //                 getNotificationsCount(),
+    //                 getInternalNotification(getNotificationsCount),
+    //                 fillUserData({
+    //                     token: parsedData.token,
+    //                     gender: parsedData.gender
+    //                 }))
+    //             : (setAxiosDefaults(),
+    //                 fillUserData({token: undefined}))
+    //     })
+    // } else {
+        // AsyncStorage.getItem(TOUCH_ID_PERMISSION).then((value) => {
+        //     if (value === 'yes') {
+        //         TouchID.authenticate('To Log in to Stokist with Touch ID')
+        //             .then(success => {
+        //                 AsyncStorage.getItem(STORED_USER_DATA).then((data) => {
+        //                     let parsedData = data !== null
+        //                         ? JSON.parse(data)
+        //                         : null;
+        //                     parsedData !== null
+        //                         ? (setAxiosDefaults(parsedData.token),
+        //                             navigate('Home'),
+        //                             getNotificationsCount(),
+        //                             getInternalNotification(getNotificationsCount),
+        //                             fillUserData({
+        //                                 token: parsedData.token,
+        //                                 gender: parsedData.gender
+        //                             }))
+        //                         : (setAxiosDefaults(),
+        //                             fillUserData({token: undefined}))
+        //                 })
+        //             })
+        //             .catch(error => {
+        //                 setAxiosDefaults()
+        //                 fillUserData({token: undefined})
+        //             });
+    //         }else{
+    //             setAxiosDefaults()
+    //             fillUserData({token: undefined})
+    //         }
+    //     })
+    // }
+}
+  }
